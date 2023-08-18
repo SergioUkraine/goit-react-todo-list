@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { Container } from './App.styled';
+import { Container, ModalButton } from './App.styled';
 import { nanoid } from 'nanoid';
 
+//components
 import TodoEditor from './TodoEditor';
 import Section from './Section';
 import TodoList from './TodoList';
 import Filter from './Filter';
+import Modal from './Modal';
+
+//data
 import defaultTodos from '../data/defaultList';
 
 class App extends Component {
   state = {
     todoList: defaultTodos,
     filter: '',
+    showModal: false,
   };
 
   componentDidMount() {
@@ -76,11 +81,18 @@ class App extends Component {
     }));
   };
 
+  toggleModal = () => {
+    this.setState({ showModal: !this.state.showModal }, () =>
+      console.log(this.state.showModal)
+    );
+  };
+
   render() {
     const filtredTodos = this.getFiltred(this.state.todoList);
     const sortedTodos = this.getSorted(filtredTodos);
     return (
       <Container>
+        <ModalButton onClick={this.toggleModal}>Show modal</ModalButton>
         <Section title="Додати завдання">
           <TodoEditor
             onSubmit={this.addTodo}
@@ -95,6 +107,12 @@ class App extends Component {
             onDeleteCross={this.deleteById}
           />
         </Section>
+        {this.state.showModal && (
+          <Modal>
+            <ModalButton onClick={this.toggleModal}>Close modal</ModalButton>
+            Some text
+          </Modal>
+        )}
       </Container>
     );
   }
