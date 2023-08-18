@@ -6,36 +6,30 @@ import TodoEditor from './TodoEditor';
 import Section from './Section';
 import TodoList from './TodoList';
 import Filter from './Filter';
+import defaultTodos from '../data/defaultList';
 
 class App extends Component {
   state = {
-    todoList: [
-      {
-        id: 'id-1',
-        name: 'Щось зробити',
-        description: 'І ось такий текст завдання',
-        done: false,
-      },
-      {
-        id: 'id-2',
-        name: 'Ще щось зробити',
-        description: 'Ну ось такий текст завдання',
-        done: false,
-      },
-      {
-        id: 'id-3',
-        name: 'Ще ось таке',
-        description: 'І ось такий текст завдання',
-        done: false,
-      },
-      {
-        id: 'id-4',
-        name: 'І таке',
-        description: 'Ну ось такий текст завдання',
-        done: true,
-      },
-    ],
+    todoList: defaultTodos,
     filter: '',
+  };
+
+  componentDidMount() {
+    const parsedInfo = JSON.parse(localStorage.getItem('todos'));
+    if (parsedInfo) {
+      this.setState({ todoList: parsedInfo });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (this.state.todoList !== prevState.todoList) {
+      localStorage.setItem('todos', JSON.stringify(this.state.todoList));
+    }
+  }
+
+  handleClearButton = () => {
+    localStorage.clear();
+    this.setState({ todoList: defaultTodos });
   };
 
   addFilter = e => {
@@ -47,9 +41,20 @@ class App extends Component {
     return tasks.filter(task => task.name.toLowerCase().includes(filter));
   };
 
+  getSorted = tasks => {
+    return tasks.sort((a, b) => {
+      if (a.done === b.done) {
+        return 0; // No change in order
+      }
+      if (a.done) {
+        return 1; // a comes after b (a.done is true)
+      }
+      return -1; // b comes after a (b.done is false)
+    });
+  };
+
   addTodo = ({ name, description }) => {
     const taskId = nanoid();
-    console.log(this.state.todoList);
     const newTodo = { id: taskId, name: name, description: description };
     this.setState(prevState => ({
       todoList: [newTodo, ...prevState.todoList],
@@ -72,16 +77,20 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
+    const filtredTodos = this.getFiltred(this.state.todoList);
+    const sortedTodos = this.getSorted(filtredTodos);
     return (
       <Container>
         <Section title="Додати завдання">
-          <TodoEditor onSubmit={this.addTodo} />
+          <TodoEditor
+            onSubmit={this.addTodo}
+            onClear={this.handleClearButton}
+          />
         </Section>
         <Section title="Перелік завдань">
           <Filter getFilterQ={this.addFilter} filter={this.state.filter} />
           <TodoList
-            todos={this.getFiltred(this.state.todoList)}
+            todos={sortedTodos}
             onStatusChange={this.changeStateTodo}
             onDeleteCross={this.deleteById}
           />

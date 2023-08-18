@@ -35,6 +35,7 @@ export const TaskDescription = styled.textarea`
 export const SubmitButton = styled.button`
   width: 80%;
   height: 40px;
+  margin-bottom: 10px;
   border: solid transparent 1px;
   border-radius: 4px;
   font-size: 16px;
@@ -42,5 +43,18 @@ export const SubmitButton = styled.button`
   &:hover {
     color: white;
     background-color: green;
+  }
+`;
+
+export const ClearButton = styled.button`
+  width: 80%;
+  height: 40px;
+  border: solid transparent 1px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  &:hover {
+    color: white;
+    background-color: red;
   }
 `;

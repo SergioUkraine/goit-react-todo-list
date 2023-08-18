@@ -5,6 +5,7 @@ import {
   TaskName,
   SubmitButton,
   TaskDescription,
+  ClearButton,
 } from './TodoEditor.styled';
 
 class TodoEditor extends Component {
@@ -54,6 +55,9 @@ class TodoEditor extends Component {
           ></TaskDescription>
         </Label>
         <SubmitButton type="submit">Зберігти</SubmitButton>
+        <ClearButton type="button" onClick={this.props.onClear}>
+          Clear cash
+        </ClearButton>
       </EditorForm>
     );
   }
