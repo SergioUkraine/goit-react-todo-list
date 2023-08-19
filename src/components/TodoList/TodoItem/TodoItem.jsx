@@ -8,14 +8,7 @@ import {
   Task,
 } from './TodoItem.styled';
 
-const TodoItem = ({
-  id,
-  name,
-  description,
-  done,
-  onStatusChange,
-  onDelete,
-}) => {
+const TodoItem = ({ name, description, done, onStatusChange, onDelete }) => {
   return (
     <ListItem done={done}>
       <Checkbox
@@ -27,12 +20,7 @@ const TodoItem = ({
       <Task done={done}>
         <Name>{name}</Name> <Description>{description}</Description>
       </Task>
-      <DeleteButton
-        type="button"
-        onClick={() => {
-          onDelete(id);
-        }}
-      >
+      <DeleteButton type="button" onClick={onDelete}>
         Delete
       </DeleteButton>
     </ListItem>

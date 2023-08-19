@@ -8,9 +8,13 @@ import Section from './Section';
 import TodoList from './TodoList';
 import Filter from './Filter';
 import Modal from './Modal';
-
+import Clock from './Clock';
+import Tabs from './Tabs';
+import HeaderContainter from './Header';
 //data
+
 import defaultTodos from '../data/defaultList';
+import tabs from '../data/tabs.json';
 
 class App extends Component {
   state = {
@@ -82,9 +86,7 @@ class App extends Component {
   };
 
   toggleModal = () => {
-    this.setState({ showModal: !this.state.showModal }, () =>
-      console.log(this.state.showModal)
-    );
+    this.setState({ showModal: !this.state.showModal });
   };
 
   render() {
@@ -92,7 +94,11 @@ class App extends Component {
     const sortedTodos = this.getSorted(filtredTodos);
     return (
       <Container>
-        <ModalButton onClick={this.toggleModal}>Show modal</ModalButton>
+        <HeaderContainter>
+          {' '}
+          <ModalButton onClick={this.toggleModal}>Show modal</ModalButton>
+        </HeaderContainter>
+
         <Section title="Додати завдання">
           <TodoEditor
             onSubmit={this.addTodo}
@@ -108,11 +114,12 @@ class App extends Component {
           />
         </Section>
         {this.state.showModal && (
-          <Modal onEscPress={this.toggleModal}>
+          <Modal onClose={this.toggleModal}>
             <ModalButton onClick={this.toggleModal}>Close modal</ModalButton>
-            Some text
+            <Clock></Clock>
           </Modal>
         )}
+        <Tabs items={tabs}></Tabs>
       </Container>
     );
   }

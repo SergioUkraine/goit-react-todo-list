@@ -7,12 +7,11 @@ const TodoList = ({ todos, onStatusChange, onDeleteCross }) => {
       {todos.map(({ id, name, description, done }) => (
         <TodoItem
           key={id}
-          id={id}
           name={name}
           description={description}
           done={done}
           onStatusChange={() => onStatusChange(id)}
-          onDelete={onDeleteCross}
+          onDelete={() => onDeleteCross(id)}
         />
       ))}
     </List>

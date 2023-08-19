@@ -1,19 +1,14 @@
 import styled from '@emotion/styled';
 
-export const Container = styled.div`
-  padding: 10px;
-  padding-top: 60px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-`;
-
-export const ModalButton = styled.button`
+export const ClockTimer = styled.div`
   position: fixed;
   top: 10px;
-  left: 10px;
+  left: 230px;
   width: 200px;
   height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 10px;
   border: solid transparent 1px;
   border-radius: 4px;
@@ -21,6 +16,6 @@ export const ModalButton = styled.button`
   font-weight: 700;
   &:hover {
     color: white;
-    background-color: orange;
+    background-color: blue;
   }
 `;
