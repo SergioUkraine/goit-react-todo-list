@@ -108,7 +108,7 @@ class App extends Component {
           />
         </Section>
         {this.state.showModal && (
-          <Modal>
+          <Modal onEscPress={this.toggleModal}>
             <ModalButton onClick={this.toggleModal}>Close modal</ModalButton>
             Some text
           </Modal>
