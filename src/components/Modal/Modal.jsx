@@ -17,7 +17,7 @@ class Modal extends Component {
   }
   //   componentDidUpdate() {}
   componentWillUnmount() {
-    // window.removeEventListener('keydown', keyEvent);
+    window.removeEventListener('keydown', keyEvent);
   }
   render() {
     return createPortal(
