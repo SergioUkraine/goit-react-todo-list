@@ -3,9 +3,6 @@ import styled from '@emotion/styled';
 export const Container = styled.div`
   padding: 10px;
   padding-top: 60px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
 `;
 
 export const ModalButton = styled.button`

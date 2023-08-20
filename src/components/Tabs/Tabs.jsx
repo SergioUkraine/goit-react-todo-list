@@ -21,7 +21,6 @@ class Tabs extends PureComponent {
     const { activeTabInx } = this.state;
     const { items } = this.props;
     const activeTab = items[activeTabInx];
-    console.log('render');
     return (
       <>
         <ControlContaoner>

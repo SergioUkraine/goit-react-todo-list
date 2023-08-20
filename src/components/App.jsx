@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, ModalButton } from './App.styled';
+import { Container } from './App.styled'; //ModalButton
 import { nanoid } from 'nanoid';
 
 //components
@@ -11,14 +11,20 @@ import Modal from './Modal';
 import Clock from './Clock';
 import Tabs from './Tabs';
 import HeaderContainter from './Header';
-//data
+import IconButton from './IconButton';
+import Statistics from './Statisctics';
 
+//images
+import { ReactComponent as Image1 } from '../icons/icon1.svg';
+import { ReactComponent as Image2 } from '../icons/icon2.svg';
+
+//data
 import defaultTodos from '../data/defaultList';
 import tabs from '../data/tabs.json';
 
 class App extends Component {
   state = {
-    todoList: defaultTodos,
+    todoList: [],
     filter: '',
     showModal: false,
   };
@@ -27,12 +33,20 @@ class App extends Component {
     const parsedInfo = JSON.parse(localStorage.getItem('todos'));
     if (parsedInfo) {
       this.setState({ todoList: parsedInfo });
+    } else {
+      this.setState({ todoList: defaultTodos });
     }
   }
 
-  componentDidUpdate(prevState) {
-    if (this.state.todoList !== prevState.todoList) {
-      localStorage.setItem('todos', JSON.stringify(this.state.todoList));
+  componentDidUpdate(prevProps, prevState) {
+    const prevTodo = prevState.todoList;
+    const curruntTodo = this.state.todoList;
+
+    if (curruntTodo !== prevTodo) {
+      localStorage.setItem('todos', JSON.stringify(curruntTodo));
+    }
+    if (curruntTodo.length > prevTodo.length && prevTodo.length !== 0) {
+      this.toggleModal();
     }
   }
 
@@ -68,6 +82,7 @@ class App extends Component {
     this.setState(prevState => ({
       todoList: [newTodo, ...prevState.todoList],
     }));
+    // this.toggleModal();
   };
 
   changeStateTodo = id => {
@@ -95,16 +110,11 @@ class App extends Component {
     return (
       <Container>
         <HeaderContainter>
-          {' '}
-          <ModalButton onClick={this.toggleModal}>Show modal</ModalButton>
+          <IconButton onClick={this.toggleModal} aria-label="Open modal">
+            <Image1 width="32px" height="32px" fill="#FFF" />
+          </IconButton>
         </HeaderContainter>
 
-        <Section title="Додати завдання">
-          <TodoEditor
-            onSubmit={this.addTodo}
-            onClear={this.handleClearButton}
-          />
-        </Section>
         <Section title="Перелік завдань">
           <Filter getFilterQ={this.addFilter} filter={this.state.filter} />
           <TodoList
@@ -115,8 +125,17 @@ class App extends Component {
         </Section>
         {this.state.showModal && (
           <Modal onClose={this.toggleModal}>
-            <ModalButton onClick={this.toggleModal}>Close modal</ModalButton>
+            <IconButton onClick={this.toggleModal} aria-label="Close modal">
+              <Image2 width="32px" height="32px" fill="#FFF" />
+            </IconButton>
             <Clock></Clock>
+            <Section title="Додати завдання">
+              <Statistics todoList={this.state.todoList}></Statistics>
+              <TodoEditor
+                onSubmit={this.addTodo}
+                onClear={this.handleClearButton}
+              />
+            </Section>
           </Modal>
         )}
         <Tabs items={tabs}></Tabs>
